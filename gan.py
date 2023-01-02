@@ -165,6 +165,7 @@ def train(dataset, epochs):
         print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
 
     # Generate after the final epoch
+    tf.keras.models.save_model('result/model{:04d}.h5'.format(EPOCHS))
     display.clear_output(wait=True)
     generate_and_save_images(generator,
                             epochs,
