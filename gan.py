@@ -107,11 +107,12 @@ def generate_and_save_images(model, epoch, test_input):
         plt.imshow(predictions[i, :, :, 0] * 127.5 + 127.5, cmap='gray')
         plt.axis('off')
 
-    plt.savefig('image_at_epoch_{:04d}.png'.format(epoch))
-    plt.show()
+    plt.savefig('result/image_at_epoch_{:04d}.png'.format(epoch))
+    #plt.show()
 
 # Train
-EPOCHS = 5
+EPOCHS = 50
+saved_model_path = 'result/gan_model{:04d}.h5'.format(EPOCHS)
 noise_dim = 100
 num_examples_to_generate = 16
 # You will reuse this seed overtime (so it's easier)
@@ -165,10 +166,9 @@ def train(dataset, epochs):
         print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
 
     # Generate after the final epoch
-    tf.keras.models.save_model('result/model{:04d}.h5'.format(EPOCHS))
+    #tf.keras.models.save_model('result/model{:04d}.h5'.format(EPOCHS))
+    tf.saved_model.save(generator, saved_model_path)
     display.clear_output(wait=True)
-    generate_and_save_images(generator,
-                            epochs,
-                            seed)
+    #generate_and_save_images(generator,epochs,seed)
 
 train(train_dataset, EPOCHS)
